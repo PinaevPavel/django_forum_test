@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content='text/html'; 
+	charset="utf-8">
+	<title>{% block title %} Главная {% endblock %} - Доска объявлений</title> <!--  -->
+</head>
+<body>
+	<header>Объявления</header>
+	<h2>Рубрика: {{ current_rubric.name }}</h2> <!-- Получаем название рубрики, по которой мы ведем фильррацию -->
+	<nav>
+		<a href="{% url 'index' %}">Главная</a> <!-- генерируем ссылку на главную страницу -->
+		<a href="{% url 'add'%}">Добавить</a>
+		{% for rubric in rubrics %}
+		<a href="{% url 'by_rubric' rubric.pk%}">{{ rubric.name }}</a>
+		{% endfor %}
+	</nav>
+	<section>
+		{% block content %}
+		{% endblock %}
+	</section>
+</body>
+</html>
