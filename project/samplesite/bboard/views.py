@@ -5,6 +5,7 @@ from django.views.generic.edit import CreateView # базовый класс, р
 #получению занесенных данных в форму данных, проверке их на корректность, сохранению их в  новой записи модели и перенаправленю в случае успеха на интернет-адрес, который мы зададим.
 from .forms import BbForm # Импорь нужной формы
 from django.urls import reverse_lazy, reverse # Эта функция принимает имя маршрута и значения всех входящих в маршрут URL параметров
+from django.template.loader import get_template
 
 
 
@@ -13,8 +14,10 @@ def index(request):
 	bbs = Bb.objects.all()
 	rubrics = Rubric.objects.all()
 	context = {'bbs': bbs, 'rubrics': rubrics}
-	return render(request, 'bboard/index.html', context) # Запускаем обработку шаблона, в процессе которого шаблонизатор выполяет объеденение его с данными из контекста. Рендерин запускаеться вызовом метода render() класса Template.
-
+	template = get_template('bboard/index.html')
+	#return HttpResponse(request, 'bboard/index.html', context) # Запускаем обработку шаблона, в процессе которого шаблонизатор выполяет объеденение его с данными из контекста. Рендерин запускаеться вызовом метода render() класса Template.
+	return HttpResponse(template.render(context=context, request=request))
+	
 def by_rubric(request, rubric_id):
 	bbs = Bb.objects.filter(rubric=rubric_id) # список объявления, отфильтрованных по полу ключа rubric
 	rubrics = Rubric.objects.all() 
@@ -32,7 +35,7 @@ class BbCreateView(CreateView):
 		context['rubrics'] = Rubric.objects.all() # добовляем список рубрик 
 		return context #возвращаем список в качесве результата
 
-def add_and_save(request):
+def add_and_save(request): #Данная контроллер функция выполняет и вывод формы на страницу и отправление POST Запроса с данным формы на сервер.
 	if request.method == 'POST':
 		bbf = BbForm(request.POST)
 		if bbf.is_valid():
