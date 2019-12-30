@@ -1,6 +1,8 @@
-Данный проект ведеться для изучения фреймворка Django
+Данный проект создать для тестового задания
 
 Для запуска сервера:
 1) необходимо запустить виртуальную среду командой " source django/bin/activate "
-2) запустить сервер командой " python3 project/samplesite manage.py runserver "
-3) Перейти по адресу http://127.0.0.1:8000/bboard/
+или установить в свою среду пакеты из requirements.txt
+2) сделать загрузку базы данных в каталоге project/samplesite из дампа командой: "python3 project/samplesite manage.py loaddata datadump.json"
+3) запустить сервер из каталога project/samplesite командой " python3 manage.py runserver "
+4) Перейти по адресу http://127.0.0.1:8000/bboard/
